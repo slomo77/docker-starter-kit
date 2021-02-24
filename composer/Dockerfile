@@ -19,6 +19,10 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 # Install PHP extensions
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
 
+RUN useradd -ms /bin/bash newuser
+USER newuser
+
+WORKDIR /app
 
 # build image with:
 # docker build -t example/tag .

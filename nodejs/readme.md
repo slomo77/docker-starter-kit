@@ -1,7 +1,11 @@
-# Use ```npm install``` and similar without having node.js installed on local machine
+# Use `npm install` or `npm run ...` without having node.js installed on local machine
 
 ## Build image (replace example/tag with e.g. username/nodejs)
-```docker build -t example/tag .```
+```
+docker build -t example/tag .
+```
 
 ## Run following command in folder with package.json:
-```docker run --rm -i --tty -v $(pwd):/app example/tag npm i```
+```
+docker run --rm -i --tty -v $(pwd):/app example/tag npm i
+```
