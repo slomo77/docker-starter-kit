@@ -1,0 +1,52 @@
+version: '3'
+
+networks:
+  default:
+
+volumes:
+  db_data:
+
+services:
+  webserver:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: webserver
+    depends_on:
+      - mariadb
+    ports:
+      - 8081:80
+    volumes:
+      - ../:/var/www
+      - ./apache/000-default.conf:/etc/apache2/sites-available/000-default.conf
+    networks:
+      - default
+
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    restart: unless-stopped
+    tty: true
+    ports:
+      - 4306:3306
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: db
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+      MYSQL_ROOT_PASSWORD: root
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mariadb
+    networks:
+      - default
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8082:8080
+    depends_on:
+      - mariadb
+    networks:
+      - default
